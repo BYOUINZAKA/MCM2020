@@ -2,8 +2,8 @@
 @Author: Hata
 @Date: 2020-05-22 17:28:25
 @LastEditors: Hata
-@LastEditTime: 2020-05-22 17:37:24
-@FilePath: \MCM2020\template\整数规划.py
+@LastEditTime: 2020-05-26 22:38:26
+@FilePath: \MCM2020\templates\整数规划.py
 @Description: 
 '''
 import numpy as np
