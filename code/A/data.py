@@ -2,7 +2,11 @@
 @Author: Hata
 @Date: 2020-05-29 20:57:04
 @LastEditors: Hata
-@LastEditTime: 2020-05-30 01:23:43
+<<<<<<< HEAD
+@LastEditTime: 2020-05-30 01:24:35
+=======
+@LastEditTime: 2020-05-30 00:57:02
+>>>>>>> ea04485e8c209a4a74112f37888b38ae2a40a7b1
 @FilePath: \MCM2020\code\A\data.py
 @Description: 
 '''

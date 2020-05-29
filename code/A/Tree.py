@@ -2,7 +2,11 @@
 @Author: Hata
 @Date: 2020-05-29 23:04:51
 @LastEditors: Hata
+<<<<<<< HEAD
 @LastEditTime: 2020-05-30 01:22:45
+=======
+@LastEditTime: 2020-05-30 01:19:36
+>>>>>>> ea04485e8c209a4a74112f37888b38ae2a40a7b1
 @FilePath: \MCM2020\code\A\Tree.py
 @Description: 
 '''
@@ -62,10 +66,17 @@ def distance(p1, p2):
 
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     figure, ax = plt.subplots()
     data = Data('.\\code\\A\\data.csv')
     mst = MST(data.Translate('[V|P]'))
     lines = mst.Build(0)
+=======
+    data = Data('.\\code\\A\\data.csv')
+    mst = MST(data.Translate('[V|P]'))
+    lines = mst.Build(0)
+    figure, ax = plt.subplots()
+>>>>>>> ea04485e8c209a4a74112f37888b38ae2a40a7b1
     mst.Draw(ax)
 
     vlist = data.GetType('V')
