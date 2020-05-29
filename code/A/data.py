@@ -2,7 +2,11 @@
 @Author: Hata
 @Date: 2020-05-29 20:57:04
 @LastEditors: Hata
-@LastEditTime: 2020-05-30 01:23:43
+<<<<<<< HEAD
+@LastEditTime: 2020-05-30 01:30:21
+=======
+@LastEditTime: 2020-05-30 00:57:02
+>>>>>>> ea04485e8c209a4a74112f37888b38ae2a40a7b1
 @FilePath: \MCM2020\code\A\data.py
 @Description: 
 '''
@@ -40,9 +44,9 @@ class Data:
         return (matrix, translator)
 
     def Draw(self, ax):
-        A = self.GetType('A')
-        V = self.GetType('V')
-        P = self.GetType('P')
+        A = self.DataFrame[self.DataFrame['类型'].str.contains('A')]
+        V = self.DataFrame[self.DataFrame['类型'].str.contains('V')]
+        P = self.DataFrame[self.DataFrame['类型'].str.contains('P')]
 
         ax.scatter(A['X坐标'], A['Y坐标'], marker='+', c='black', s=100)
         ax.scatter(V['X坐标'], V['Y坐标'], marker='*', c='red', s=20)

@@ -2,7 +2,7 @@
 @Author: Hata
 @Date: 2020-05-29 23:04:51
 @LastEditors: Hata
-@LastEditTime: 2020-05-30 01:22:45
+@LastEditTime: 2020-05-30 01:26:54
 @FilePath: \MCM2020\code\A\Tree.py
 @Description: 
 '''
