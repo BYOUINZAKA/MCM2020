@@ -2,8 +2,8 @@
 @Author: Hata
 @Date: 2020-05-29 23:04:51
 @LastEditors: Hata
-@LastEditTime: 2020-05-30 01:19:36
-@FilePath: \MCM2020\code\A\Tree.py
+@LastEditTime: 2020-05-30 13:54:44
+@FilePath: \MCM2020\code\A\tree.py
 @Description: 
 '''
 import matplotlib.pyplot as plt
@@ -20,7 +20,7 @@ class MST:
     def Build(self, first: int):
         lines = []
         selected = [first]
-        candidate = [i for i in range(0, len(self.matrix))]
+        candidate = list(range(0, len(self.matrix)))
         candidate.remove(first)
 
         while len(candidate) > 0:
@@ -31,7 +31,7 @@ class MST:
                         minl = self.matrix[i][j]
                         begin = i
                         end = j
-            
+
             lines.append((begin, end, minl))
             selected.append(end)
             candidate.remove(end)
@@ -51,31 +51,3 @@ class MST:
                 lw = 0.5
             ax.plot((begin[-2], end[-2]), (begin[-1], end[-1]),
                     linewidth=lw, c=color, linestyle='--')
-
-
-def distance(p1, p2):
-    if p1[0] == p2[0]:
-        return 0
-    x1, y1 = p1[-2:]
-    x2, y2 = p2[-2:]
-    return np.sqrt((x1-x2)**2+(y1-y2)**2)
-
-
-if __name__ == "__main__":
-    figure, ax = plt.subplots()
-    data = Data('.\\code\\A\\data.csv')
-    mst = MST(data.Translate('[V|P]'))
-    lines = mst.Build(0)
-    mst.Draw(ax)
-
-    vlist = data.GetType('V')
-    a = data.Get(0)
-    mindis = 0x3f3f3f
-    for i in vlist:
-        if mindis > distance(i, a):
-            mindis = distance(i, a)
-            minx, miny = i[-2:]
-    ax.plot([a[-2], minx], [a[-1], miny], linewidth=1, c='red', linestyle='-.')
-
-    data.Draw(ax)
-    plt.show()
