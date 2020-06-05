@@ -2,7 +2,7 @@
 @Author: Hata
 @Date: 2020-06-05 11:56:56
 @LastEditors: Hata
-@LastEditTime: 2020-06-05 18:45:17
+@LastEditTime: 2020-06-05 18:47:53
 @FilePath: \MCM2020\code\anotherA\solve2.py
 @Description: 
 '''
@@ -26,14 +26,17 @@ def buildUncycleGraph(G):
 
 def dfs(df, G, edge):
     # 以 i 为起点向 j 方向做深度优先搜索，直到尽头或是搜索到一级水站。
-    # 如果搜索到了中心或者一级水站，说明j距离高级水站更近，所以应该升级i；
-    # 如果搜索结果全部都是尽头，说明i比j更接近高级水站，那么就升级j。
     i, j = edge[:2]
+
+    # 如果搜索结果全部都是图尽头，说明i比j更接近高级水站，那么就升级j。
     if len(G[j]) <= 1:
         return True
+
+    # 如果搜索到了某高级水站，说明j距离高级水站更近，所以应该升级i；
     type_j = df.GetType(j)
     if type_j is 'A' or type_j is 'V':
         return False
+
     for key in G[j]:
         if key is not i:
             if not dfs(df, G, (j, key)):
