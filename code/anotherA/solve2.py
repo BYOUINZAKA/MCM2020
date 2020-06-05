@@ -2,7 +2,7 @@
 @Author: Hata
 @Date: 2020-06-05 11:56:56
 @LastEditors: Hata
-@LastEditTime: 2020-06-05 18:39:38
+@LastEditTime: 2020-06-05 18:45:17
 @FilePath: \MCM2020\code\anotherA\solve2.py
 @Description: 
 '''
@@ -69,7 +69,7 @@ if __name__ == "__main__":
                   nx.minimum_spanning_tree(df.BuildGraph('V|P'), algorithm='prim'))
     # dfs自动断环。
     buildUncycleGraph(G)
-    # 升级最长边周围，并可以使图中出现环的节点，并删除环。
+    # 升级2个处于最长边周围，并可以使图中出现环的节点，并删除这个环。
     uplist = smartUpgrade(df, G, upgradeCount)
 
     for i in uplist:
