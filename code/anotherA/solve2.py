@@ -2,7 +2,7 @@
 @Author: Hata
 @Date: 2020-06-05 11:56:56
 @LastEditors: Hata
-@LastEditTime: 2020-06-05 18:33:27
+@LastEditTime: 2020-06-05 18:39:38
 @FilePath: \MCM2020\code\anotherA\solve2.py
 @Description: 
 '''
