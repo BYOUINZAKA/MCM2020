@@ -2,7 +2,7 @@
 @Author: Hata
 @Date: 2020-06-04 21:58:22
 @LastEditors: Hata
-@LastEditTime: 2020-06-05 19:44:29
+@LastEditTime: 2020-06-05 19:48:17
 @FilePath: \MCM2020\code\anotherA\dataform.py
 @Description: 封装了A题所需要的数据和图论操作
 '''
@@ -52,8 +52,8 @@ class DataForm:
         @Return: pandas.DataFrame
             返回一个包含指定类型的所有内容的数据表
         @Example: 
-            dataform.Get('V') : 读取某一种类型。
-            dataform.Get('A|V|P') : 读取多种类型。
+            dataform.GetByType('V')         读取一种类型
+            dataform.GetByType('A|V|P')     读取多种类型
         '''
         return self.df[self.df['TYPE'].str.contains(types)]
 
@@ -80,7 +80,7 @@ class DataForm:
         @Return: tuple(2, 2)
             返回一个可以解包放入matplotlib.pyplot.plot()的元组。
         @Example: 
-            plt.plot(*df.GetPlotList(i, j)) : 画出节点i~节点j的边。
+            plt.plot(*df.GetPlotList(i, j))     画出节点i~节点j的边。
         '''
         p1 = self.Get(i)
         p2 = self.Get(j)
