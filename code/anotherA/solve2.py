@@ -2,7 +2,7 @@
 @Author: Hata
 @Date: 2020-06-05 11:56:56
 @LastEditors: Hata
-@LastEditTime: 2020-06-05 18:51:41
+@LastEditTime: 2020-06-05 18:55:28
 @FilePath: \MCM2020\code\anotherA\solve2.py
 @Description: 
     由于II型管道市场供应不足，急需减少从一级供水站出发铺设的II型管道总里程，
@@ -81,12 +81,12 @@ if __name__ == "__main__":
                   nx.minimum_spanning_tree(df.BuildGraph('V|P'), algorithm='prim'))
     # dfs自动断环。
     buildUncycleGraph(G)
-    # 升级2个处于最长边周围，并可以使图中出现环的节点，并删除这个环。
+    # 升级2个处于最长边周围，并可以使图中出现环的节点，并断开这个环。
     uplist = smartUpgrade(df, G, upgradeCount)
 
     for i in uplist:
         msg = df.Get(i)
-        print("升级了位于 (%d, %d) 处的 %d 号水站。" % (msg['X'], msg['Y'], i))
+        print("需要升级位于 (%d, %d) 处的 %d 号水站。" % (msg['X'], msg['Y'], i))
 
     print("管道总长为%.2fm，其中I型管道总长%.2fm，II型管道总长%.2fm。（结果保留两位小数）"
           % dfm.weightStats(df, G))
