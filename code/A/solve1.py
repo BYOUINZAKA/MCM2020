@@ -2,7 +2,7 @@
 @Author: Hata
 @Date: 2020-05-30 02:04:27
 @LastEditors: Hata
-@LastEditTime: 2020-05-30 02:05:23
+@LastEditTime: 2020-05-31 17:59:03
 @FilePath: \MCM2020\code\A\solve1.py
 @Description: 
 '''
@@ -25,7 +25,7 @@ def distance(p1, p2):
 if __name__ == "__main__":
     figure, ax = plt.subplots()
     data = Data('.\\code\\A\\data.csv')
-    mst = MST(data.Translate('[V|P]'))
+    mst = MST(data.Translate('V|P'))
     lines = mst.Build(0)
     mst.Draw(ax)
 
