@@ -2,7 +2,7 @@
 @Author: Hata
 @Date: 2020-06-04 21:58:22
 @LastEditors: Hata
-@LastEditTime: 2020-06-05 18:57:34
+@LastEditTime: 2020-06-05 19:44:29
 @FilePath: \MCM2020\code\anotherA\dataform.py
 @Description: 封装了A题所需要的数据和图论操作
 '''
@@ -137,8 +137,8 @@ class DataForm:
             base{int} : 要搜索的节点的id
             types{str} : 节点的类型，需要包含base的类型，默认值为'A|V'
             minimum{bool} : 要选取最近节点还是最远节点，默认为True
-                True: 最近节点
-                False: 最远节点
+                            True: 最近节点
+                            False: 最远节点
         @Return: tuple(3)
             返回一个格式为(搜索起点, 搜索目标, 权重)的元组
         '''        
@@ -175,6 +175,13 @@ def graphDraw(dataform: DataForm, graph: nx.Graph):
 
 
 def merge(lhs: nx.Graph, rhs: nx.Graph) -> nx.Graph:
+    ''' 接合两个图
+    以O(m+n)的时间复杂度接合两个无向图。
+
+    @Args: 
+        lhs, rhs{nx.Graph} : 所要接合的图
+    @Return: nx.Graph
+    '''    
     graph = nx.Graph()
     for i, j, dis in lhs.edges.data('weight'):
         graph.add_edge(i, j, weight=dis)
@@ -204,6 +211,19 @@ def maxEdge(dataform: DataForm, graph: nx.Graph, grade=False):
 
 
 def disconnectCycle(dataform: DataForm, graph: nx.Graph, cycle: list, grade=False, minimum=False):
+    ''' 删除环中的最长（短）边来断环
+
+    @Args: 
+        dataform{DataForm}
+        graph{nx.Graph}
+        cycle{list} : 二维数组，记录环的每一条边的起点和终点
+        grade{bool} : 所要删除的边的类型
+                    True : I型管道
+                    False : II型管道
+        minimum{bool} : 删除最长还是最短边
+    @Return: tuple(2)
+        返回一个元组记录被删除的边的起点和终点。
+    '''    
     if len(cycle[0]) is 2:
         cycleList = cycle
     else:
