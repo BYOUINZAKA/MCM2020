@@ -2,9 +2,13 @@
 @Author: Hata
 @Date: 2020-06-05 11:56:56
 @LastEditors: Hata
-@LastEditTime: 2020-06-05 18:47:53
+@LastEditTime: 2020-06-05 18:51:41
 @FilePath: \MCM2020\code\anotherA\solve2.py
 @Description: 
+    由于II型管道市场供应不足，急需减少从一级供水站出发铺设的II型管道总里程，
+    初步方案是将其中两个二级供水站升级为一级供水站。问选取哪两个二级供水站，自来
+    水管道应该如何铺设才能使铺设的II型管道总里程最少？相对问题1的方案，II型管道
+    的总里程减少了多少公里？
 '''
 import matplotlib.pyplot as plt
 import networkx as nx
@@ -45,7 +49,9 @@ def dfs(df, G, edge):
 
 
 def smartUpgrade(df, G, count):
+    # 需要记录升级的节点作为返回值
     uplist = []
+
     for _ in range(count):
         i, j = dfm.maxEdge(df, G)[:2]
         if dfs(df, G, (i, j)):
@@ -54,10 +60,13 @@ def smartUpgrade(df, G, count):
         else:
             df.Upgrade(i)
             upgraded = i
+        
         uplist.append(upgraded)
+        
         # 因为有节点升级了，所以需要添加新的一级管道。
         for_add = df.BestNeighbor(upgraded)
         G.add_edge(*for_add[:2], weight=for_add[2])
+
         # 移除最长管道。
         G.remove_edge(i, j)
     return uplist
@@ -78,8 +87,8 @@ if __name__ == "__main__":
     for i in uplist:
         msg = df.Get(i)
         print("升级了位于 (%d, %d) 处的 %d 号水站。" % (msg['X'], msg['Y'], i))
-    
-    print("管道总长为%.2fm，其中一级管道总长%.2fm，二级管道总长%.2fm。（结果保留两位小数）"
+
+    print("管道总长为%.2fm，其中I型管道总长%.2fm，II型管道总长%.2fm。（结果保留两位小数）"
           % dfm.weightStats(df, G))
     df.Draw()
     dfm.graphDraw(df, G)
