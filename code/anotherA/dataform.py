@@ -2,7 +2,7 @@
 @Author: Hata
 @Date: 2020-06-04 21:58:22
 @LastEditors: Hata
-@LastEditTime: 2020-06-05 18:52:04
+@LastEditTime: 2020-06-05 18:57:34
 @FilePath: \MCM2020\code\anotherA\dataform.py
 @Description: 封装了A题所需要的数据和图论操作
 '''

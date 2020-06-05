@@ -2,7 +2,7 @@
 @Author: Hata
 @Date: 2020-06-05 11:56:56
 @LastEditors: Hata
-@LastEditTime: 2020-06-05 18:55:28
+@LastEditTime: 2020-06-05 19:05:48
 @FilePath: \MCM2020\code\anotherA\solve2.py
 @Description: 
     由于II型管道市场供应不足，急需减少从一级供水站出发铺设的II型管道总里程，
@@ -36,13 +36,15 @@ def dfs(df, G, edge):
     if len(G[j]) <= 1:
         return True
 
-    # 如果搜索到了某高级水站，说明j距离高级水站更近，所以应该升级i；
+    # 如果搜索到了一个高级水站，说明j距离高级水站更近，所以应该升级i。
     type_j = df.GetType(j)
     if type_j is 'A' or type_j is 'V':
         return False
 
     for key in G[j]:
+        # i 是起点，自然不需要搜索。
         if key is not i:
+            # 递归搜索下去， 如果找到了高级水站可以直接停止搜索。
             if not dfs(df, G, (j, key)):
                 return False
     return True
@@ -54,6 +56,7 @@ def smartUpgrade(df, G, count):
 
     for _ in range(count):
         i, j = dfm.maxEdge(df, G)[:2]
+        # 理论上升级节点构成的环只需要包含最长边似乎就行了，那就直接取最长边的边沿来升级。
         if dfs(df, G, (i, j)):
             df.Upgrade(j)
             upgraded = j
@@ -63,12 +66,13 @@ def smartUpgrade(df, G, count):
         
         uplist.append(upgraded)
         
-        # 因为有节点升级了，所以需要添加新的一级管道。
+        # 因为有节点升级了，所以需要添加新的I型管道。
         for_add = df.BestNeighbor(upgraded)
         G.add_edge(*for_add[:2], weight=for_add[2])
 
-        # 移除最长管道。
+        # 添加了新管道图中就有环了，那么直接移除最长管道来断环，不需要搜索了。
         G.remove_edge(i, j)
+    
     return uplist
 
 
