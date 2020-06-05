@@ -2,11 +2,7 @@
 @Author: Hata
 @Date: 2020-06-04 23:37:44
 @LastEditors: Hata
-<<<<<<< HEAD
-@LastEditTime: 2020-06-05 18:42:59
-=======
-@LastEditTime: 2020-06-05 12:39:01
->>>>>>> 7c0d5a655a4619ca1f5c1239af30c76d5c96e0db
+@LastEditTime: 2020-06-05 18:43:37
 @FilePath: \MCM2020\code\anotherA\solve1.py
 @Description: 
 '''
