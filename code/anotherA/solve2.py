@@ -2,7 +2,7 @@
 @Author: Hata
 @Date: 2020-06-05 11:56:56
 @LastEditors: Hata
-@LastEditTime: 2020-06-05 19:53:22
+@LastEditTime: 2020-06-08 20:01:26
 @FilePath: \MCM2020\code\anotherA\solve2.py
 @Description: 
     由于II型管道市场供应不足，急需减少从一级供水站出发铺设的II型管道总里程，
@@ -56,10 +56,9 @@ def dfs(df, G, edge):
     if type_j is 'A' or type_j is 'V':
         return False
 
+    # 递归dfs。
     for key in G[j]:
-        # i 是起点，自然不需要搜索。
         if key is not i:
-            # 递归搜索下去， 如果找到了高级水站可以直接停止搜索。
             if not dfs(df, G, (j, key)):
                 return False
     return True
@@ -85,7 +84,7 @@ def smartUpgrade(df, G, count):
         for_add = df.BestNeighbor(upgraded)
         G.add_edge(*for_add[:2], weight=for_add[2])
 
-        # 添加了新管道图中就有环了，那么直接移除最长管道来断环，不需要搜索了。
+        # 添加了新管道图中就有环了，那么直接移除最长管道来断环，不需要再搜索了。
         G.remove_edge(i, j)
 
     return uplist
@@ -100,15 +99,14 @@ if __name__ == "__main__":
                   nx.minimum_spanning_tree(df.BuildGraph('V|P'), algorithm='prim'))
     # dfs自动断环。
     buildUncycleGraph(df, G)
-    # 升级2个处于最长边周围，并可以使图中出现环的节点，并断开这个环。
+    # 升级2个处于最长边周围，并可以使图中出现环的节点，并断开这些环。
     uplist = smartUpgrade(df, G, upgradeCount)
 
-    # 列出升级水站的信息。
+    # 输出
     for i in uplist:
         msg = df.Get(i)
         print("需要升级位于 (%d, %d) 处的 %d 号水站。" % (msg['X'], msg['Y'], i))
 
-    # 绘制。
     print("管道总长为%.2fkm，其中I型管道总长%.2fkm，II型管道总长%.2fkm。（结果保留两位小数）"
           % dfm.weightStats(df, G))
     df.Draw()

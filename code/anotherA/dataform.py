@@ -2,7 +2,7 @@
 @Author: Hata
 @Date: 2020-06-04 21:58:22
 @LastEditors: Hata
-@LastEditTime: 2020-06-05 19:48:17
+@LastEditTime: 2020-06-08 20:00:06
 @FilePath: \MCM2020\code\anotherA\dataform.py
 @Description: 封装了A题所需要的数据和图论操作
 '''
@@ -245,7 +245,7 @@ def disconnectCycle(dataform: DataForm, graph: nx.Graph, cycle: list, grade=Fals
     graph.remove_edge(*res)
     return res
 
-
+# 测试代码。
 if __name__ == "__main__":
     df = DataForm(".\\code\\anotherA\\data.csv")
     df.Upgrade(150)
