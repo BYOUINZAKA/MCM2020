@@ -2,7 +2,7 @@
 @Author: Hata
 @Date: 2020-06-09 17:32:49
 @LastEditors: Hata
-@LastEditTime: 2020-06-10 16:17:10
+@LastEditTime: 2020-06-10 16:24:20
 @FilePath: \MCM2020\code\anotherA\solve3.py
 @Description: 
     在问题1基础上，假如现实中由于功率的影响，
@@ -86,6 +86,8 @@ if __name__ == "__main__":
         if G.nodes[i]['power'] >= 0:
             df.Upgrade(i)
             break
+    msg = df.Get(node)
+    print("需要升级位于 (%d, %d) 处的 %d 号水站。" % (msg['X'], msg['Y'], i))
 
     # 再染一次色。
     fillWater(df, G)
