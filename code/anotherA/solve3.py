@@ -2,7 +2,7 @@
 @Author: Hata
 @Date: 2020-06-09 17:32:49
 @LastEditors: Hata
-@LastEditTime: 2020-06-10 16:24:20
+@LastEditTime: 2020-06-10 18:03:48
 @FilePath: \MCM2020\code\anotherA\solve3.py
 @Description: 
     在问题1基础上，假如现实中由于功率的影响，
@@ -80,7 +80,7 @@ if __name__ == "__main__":
 
     plt.clf()
 
-    # 将无水树根节点的最近有水节点升级。
+    # 将无水树的根节点最近的有水节点升级。
     node = driedRoots[0]
     for i in G[node]:
         if G.nodes[i]['power'] >= 0:
