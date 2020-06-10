@@ -109,7 +109,6 @@ if __name__ == "__main__":
 
     print("管道总长为%.2fkm，其中I型管道总长%.2fkm，II型管道总长%.2fkm。（结果保留两位小数）"
           % dfm.weightStats(df, G))
-    df.Draw()
     dfm.graphDraw(df, G)
     plt.savefig('.\\code\\anotherA\\result\\solve2.png')
     plt.show()

@@ -2,7 +2,7 @@
 @Author: Hata
 @Date: 2020-06-04 23:37:44
 @LastEditors: Hata
-@LastEditTime: 2020-06-08 20:01:36
+@LastEditTime: 2020-06-10 15:26:56
 @FilePath: \MCM2020\code\anotherA\solve1.py
 @Description: 
     从中心供水站A出发，自来水管道应该如何铺设才能使管道的总里程最少？
@@ -31,7 +31,6 @@ if __name__ == "__main__":
 
     # 输出
     dfm.graphDraw(df, G)
-    df.Draw()
     print("管道总长为%.2fkm，其中I型管道总长%.2fkm，II型管道总长%.2fkm。（结果保留两位小数）"
           % dfm.weightStats(df, G))
     plt.savefig('.\\code\\anotherA\\result\\solve1.png')

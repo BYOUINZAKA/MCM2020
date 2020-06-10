@@ -2,7 +2,7 @@
 @Author: Hata
 @Date: 2020-06-04 21:58:22
 @LastEditors: Hata
-@LastEditTime: 2020-06-08 20:00:06
+@LastEditTime: 2020-06-10 15:30:12
 @FilePath: \MCM2020\code\anotherA\dataform.py
 @Description: 封装了A题所需要的数据和图论操作
 '''
@@ -141,7 +141,7 @@ class DataForm:
                             False: 最远节点
         @Return: tuple(3)
             返回一个格式为(搜索起点, 搜索目标, 权重)的元组
-        '''        
+        '''
         neighbors = self.BuildGraph(types)[base]
         if minimum:
             weight = np.Infinity
@@ -160,7 +160,21 @@ class DataForm:
 
 
 def graphDraw(dataform: DataForm, graph: nx.Graph):
-    lines = []
+    def drawPoint(i):
+        p = dataform.Get(i)
+        ty = dataform.GetType(i)
+        if 'A' in ty:
+            marker, c, s = '+', 'black', 100
+        elif 'V' in ty:
+            marker, c, s = '*', 'red', 20
+        elif 'P' in ty:
+            marker, c, s = '.', 'blue', 5
+        try:
+            if graph.nodes[i]['power'] < 0:
+                c = 'gray'
+        except:
+            pass
+        plt.scatter(p[-2], p[-1], marker=marker, c=c, s=s)
     for i, j, dis in graph.edges.data('weight'):
         if dataform.CheckRoute(i, j):
             color = 'red'
@@ -169,9 +183,9 @@ def graphDraw(dataform: DataForm, graph: nx.Graph):
             color = 'green'
             lw = 0.5
         plotList = dataform.GetPlotList(i, j)
-        lines.append(*plt.plot(*plotList, linewidth=lw,
-                               c=color, linestyle='--'))
-    return lines
+        plt.plot(*plotList, linewidth=lw, c=color, linestyle='--')
+        drawPoint(i)
+        drawPoint(j)
 
 
 def merge(lhs: nx.Graph, rhs: nx.Graph) -> nx.Graph:
@@ -181,7 +195,7 @@ def merge(lhs: nx.Graph, rhs: nx.Graph) -> nx.Graph:
     @Args: 
         lhs, rhs{nx.Graph} : 所要接合的图
     @Return: nx.Graph
-    '''    
+    '''
     graph = nx.Graph()
     for i, j, dis in lhs.edges.data('weight'):
         graph.add_edge(i, j, weight=dis)
@@ -223,7 +237,7 @@ def disconnectCycle(dataform: DataForm, graph: nx.Graph, cycle: list, grade=Fals
         minimum{bool} : 删除最长还是最短边
     @Return: tuple(2)
         返回一个元组记录被删除的边的起点和终点。
-    '''    
+    '''
     if len(cycle[0]) is 2:
         cycleList = cycle
     else:
@@ -244,6 +258,7 @@ def disconnectCycle(dataform: DataForm, graph: nx.Graph, cycle: list, grade=Fals
                     res = (i, j)
     graph.remove_edge(*res)
     return res
+
 
 # 测试代码。
 if __name__ == "__main__":
