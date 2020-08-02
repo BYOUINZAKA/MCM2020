@@ -58,7 +58,7 @@ class InsideCircle:
             return -1
 
         # 初始上下界，上界为图的最大像素数
-        min_r, max_r = 0.0, 512.0
+        min_r, max_r = 0.0, 256.0
 
         # 规定一个临界值，如果最大半径和最小半径的差小于这个临界值时，我们视为两个值相等，不再循环。
         while abs(max_r - min_r) > self.prec:
