@@ -7,11 +7,14 @@
 @Description: 
 """
 
+
 import numpy as np
 
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpathes
+
+from pandas import DataFrame
 
 
 class InsideCircle:
@@ -95,16 +98,44 @@ class InsideCircle:
         plt.imshow(self.bitmap)
 
 
+def posTranslate(pos: tuple):
+    x, y = pos
+    return (x - 256, y - 256)
+    pass
+
+
 if __name__ == "__main__":
-    fig, ax = plt.subplots()
+    main_dir = {
+        'Z': [],
+        'X': [],
+        'Y': [],
+        'R': []
+    }
 
-    pixelMap = InsideCircle("code\\Test1\\第一次训练\\A题 血管的三维重建\\A01bmp\\73.bmp")
-    x, y, r = pixelMap.findMaxInsideCircle()
+    path = "code\\Test1\\第一次训练\\A\\A01bmp\\%d.bmp"
+    for z in range(100):
+        pic = path % z
+        pixelMap = InsideCircle(pic)
+        x, y, r = pixelMap.findMaxInsideCircle()
+        x, y = posTranslate((x, y))
+        print("z = %d\nCircle center: (%d, %d)\nRadius = %f\n" % (z, x, y, r))
+        main_dir['Z'].append(z)
+        main_dir['X'].append(x)
+        main_dir['Y'].append(y)
+        main_dir['R'].append(r)
 
-    print("Circle center: (%d, %d)\nRadius = %f" % (x, y, r))
+    df = DataFrame(main_dir)
+    print(df)
+    df.to_csv("code\\Test1\\第一次训练\\A\\circles.csv")
 
-    pixelMap.imageShow()
-    ax.add_patch(mpathes.Circle(
-        (x, y), r, color='yellow', fill=False, linewidth=2))
 
-    plt.show()
+
+
+'''
+fig, ax = plt.subplots()
+pixelMap.imageShow()
+ax.add_patch(mpathes.Circle(
+    (x, y), r, color='yellow', fill=False, linewidth=2))
+
+plt.show()
+'''
