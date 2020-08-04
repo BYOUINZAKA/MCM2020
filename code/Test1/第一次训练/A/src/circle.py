@@ -7,8 +7,6 @@
 @Description: 
 """
 
-import random
-
 import numpy as np
 
 import matplotlib.image as mpimg
@@ -65,7 +63,7 @@ class InsideCircle:
         min_r, max_r = 0.0, float(np.min([x - 0, 512 - x, y - 0, 512 - y]))
 
         # 规定一个临界值，如果最大半径和最小半径的差小于这个临界值时，我们视为两个值相等，不再循环。
-        while max_r - min_r >= self.prec:
+        while np.abs(max_r - min_r) >= self.prec:
 
             # 每次取上下界的中间值进行检测
             mid_r = (min_r + max_r) / 2
@@ -101,8 +99,7 @@ class InsideCircle:
 
 def posTranslate(pos: tuple):
     x, y = pos
-    return (x - 256, y - 256)
-    pass
+    return x - 256, y - 256
 
 
 if __name__ != "__main__":
@@ -132,7 +129,7 @@ if __name__ != "__main__":
 else:
     sample = 32
     fig, ax = plt.subplots()
-    pixelMap = InsideCircle("code\\Test1\\第一次训练\\A\\A01bmp\\25.bmp", sample)
+    pixelMap = InsideCircle("code\\Test1\\第一次训练\\A\\A01bmp\\0.bmp", sample)
     pixelMap.imageShow()
     x, y, r = pixelMap.findMaxInsideCircle()
     print("Circle center: (%d, %d)\nRadius = %f\n" % (x, y, r))
