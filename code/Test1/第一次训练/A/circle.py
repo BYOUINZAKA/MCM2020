@@ -42,11 +42,11 @@ class InsideCircle:
         # 在0到2π间分层取样
         # sample_angles = np.linspace(0, 2 * np.pi, self.sample)
         for a in self.sample_angles:
-            target = (x + r * np.cos(a), y + r * np.sin(a))
+            dx, dy = x + r * np.cos(a), y + r * np.sin(a)
 
             # 只要有一个点出界这个圆一定不在图形内
             # 只有所有点都处于图形内这个圆才在图形内
-            if not self.isInside(*target):
+            if not self.isInside(dx, dy):
                 return False
 
         return True
@@ -132,7 +132,7 @@ if __name__ != "__main__":
 else:
     sample = 32
     fig, ax = plt.subplots()
-    pixelMap = InsideCircle("code\\Test1\\第一次训练\\A\\A01bmp\\76.bmp", sample)
+    pixelMap = InsideCircle("code\\Test1\\第一次训练\\A\\A01bmp\\25.bmp", sample)
     pixelMap.imageShow()
     x, y, r = pixelMap.findMaxInsideCircle()
     print("Circle center: (%d, %d)\nRadius = %f\n" % (x, y, r))
