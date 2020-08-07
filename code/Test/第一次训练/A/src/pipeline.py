@@ -51,13 +51,13 @@ def showSolve(p, pic):
     path = "code\\Test1\\第一次训练\\A\\A01bmp\\%d.bmp"
     fig=plt.figure(figsize=(6, 6))
 
-    addSubPlot(fig, 222, "No treatment").add_collection(getSlice(df, pic, 30))
+    addSubPlot(fig, 221, "No treatment").add_collection(getSlice(df, pic, 30))
 
-    addSubPlot(fig, 223, "After interpolate").add_collection(getSliceByInter((fzx, fzy), pic, 30))
+    # addSubPlot(fig, 223, "After interpolate").add_collection(getSliceByInter((fzx, fzy), pic, 30))
 
-    addSubPlot(fig, 221, "Origin %d.bmp" % pic).imshow(mpimg.imread(path % pic))
+    addSubPlot(fig, 222, "Origin %d.bmp" % pic).imshow(mpimg.imread(path % pic))
 
-    plt.savefig("code\\Test1\\第一次训练\\A\\pic\\TEST-%d.png" % pic)
+    plt.savefig("code\\Test1\\第一次训练\\A\\pic\\TEST-%d-2P.png" % pic)
 
 
 df = read_csv("code\\Test1\\第一次训练\\A\\circle_datas\\circles_s32.csv")
