@@ -6,7 +6,7 @@ import numpy as np
 
 from datetime import timedelta
 from typing import Iterable
-from collections import namedtuple, OrderedDict
+from collections import namedtuple, deque
 from pandas import DataFrame, read_csv, to_datetime
 
 Case = collections.namedtuple(
@@ -49,8 +49,10 @@ def get_time_list(df: DataFrame):
 
 medical_dict = {
     "Trauma": MedicalMessage(1, 6, [0, 1, 2, 3, 4, 5, 6]),
-    "Retina": MedicalMessage(2, 10, [1, 3, 4, 5, 6]),
-    "Glaucoma": MedicalMessage(2, 8, [1, 3, 4, 5, 6]),
+    # "Retina": MedicalMessage(2, 10, [1, 3, 4, 5, 6]),
+    # "Glaucoma": MedicalMessage(2, 8, [1, 3, 4, 5, 6]),
+    "Retina": MedicalMessage(2, 10, [1, 3, 4]),
+    "Glaucoma": MedicalMessage(2, 8, [1, 3, 4]),
     "Cataract": MedicalMessage(1, 3, [0, 2]),
     "Double": MedicalMessage(1, 5, [0]),
 }
@@ -72,7 +74,7 @@ def weekday_distance(before, after):
 
 def find_suitable_day(date, msg: MedicalMessage):
     weekday = int(date.strftime("%w"))
-    min_dis = 0x3f3f3f
+    min_dis = 7
 
     for day in msg.allow_days:
         dis = weekday_distance(weekday, day)
@@ -148,7 +150,7 @@ class TimeLine:
     def modify(self, idx: int, val: int):
         self.list[idx] = (self.list[idx][0], self.list[idx][1] + val)
 
-    def get_list(self):
+    def __iter__(self):
         while True:
             yield self.current()
             if self.has_next():
@@ -160,14 +162,79 @@ class TimeLine:
         self.pointer, self.count = 0, 0
 
 
+def pop_case(case_heap: list, quick_queue: deque, today: datetime.date):
+    if len(quick_queue) > 0:
+        return 1, quick_queue.popleft()
+    global medical_dict
+
+    def allow(date_dis: int, standby: int):
+        return date_dis >= standby
+
+    date_dis, msg = heapq.heappop(case_heap)
+    standby = medical_dict[msg[1]].standby
+    while not allow(date_dis, standby):
+        new_dis = find_suitable_day(today, medical_dict[msg[1]])[1]
+        if new_dis > 7:
+            print(new_dis)
+        heapq.heappush(case_heap, (new_dis, msg))
+
+        date_dis, msg = heapq.heappop(case_heap)
+        standby = medical_dict[msg[1]].standby
+
+    return date_dis, msg
+
+
+def get_out_time(in_time: datetime.date, top: tuple):
+    dis, msg = top
+    observe = medical_dict[msg[1]].observe
+    delta = timedelta(days=dis+observe)
+    return in_time + delta
+
 if __name__ == "__main__":
-    df = read_datas('forecast')
+    forecast = read_datas('forecast_2')
+    future = read_datas('future')
 
-    tl = TimeLine(df)
+    time_line = TimeLine(forecast)
+    case_heap = []
+    quick_queue = deque(future[future['Type'] == 'Trauma'].to_numpy().tolist())
 
-    end = to_datetime("2008-9-23").date()
+    time_line.forward("2008-9-12")
+    today = time_line.current()[0]
 
-    for t in tl.get_list():
-        if tl.current()[0] == end:
-            tl.input("2008-9-30")
-        print(tl.current())
+    for msg in future[future['Type'] != 'Trauma'].to_numpy().tolist():
+        dis = find_suitable_day(today, medical_dict[msg[1]])
+        heapq.heappush(case_heap, (int(dis[1]), msg))
+
+    def empty():
+        return len(case_heap) + len(quick_queue) == 0
+
+    plan = forecast.to_numpy()[:, 1:].tolist()
+    double_delta = timedelta(days=2)
+
+    for date, status, count in time_line:
+        if empty():
+            break
+
+        beds, count = 79 - (count + status), 0
+
+        while not empty() and count < beds:
+            poped = pop_case(case_heap, quick_queue, date)
+            out_date = get_out_time(date, poped)
+            time_line.input(out_date)
+            count = count + 1
+            
+            case = poped[1]
+            wait = timedelta(days=poped[0])
+            case[3] = date
+            case[4] = date+wait
+            if 'Double' == case[1]:
+                case[-2] = case[-3] + double_delta
+            case[-1] = out_date
+            plan.append(case)
+        
+        for i in range(len(case_heap)):
+            case_heap[i] = (case_heap[i][0]-1, case_heap[i][1])
+    
+    df = DataFrame(plan, columns=['ID','Type','Enter','In','First','Second','Out'])
+    print(df)
+    df.to_csv("code\\Test\\test_2\\plan_2.csv")

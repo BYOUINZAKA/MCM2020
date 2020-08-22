@@ -37,10 +37,12 @@ def build_forecast():
                 df['First']) + timedelta(days=medical_dict[df['Type']].observe)
         return df
 
-    curr = read_datas('current')
+    curr = read_datas('current_2')
     forecast_datas = curr.apply(forecast, axis=1)
-    forecast_datas.to_csv("code\\Test\\test_2\\forecast.csv")
+    print(forecast_datas)
+    forecast_datas.to_csv("code\\Test\\test_2\\forecast_2.csv")
 
 
 if __name__ == "__main__":
+    build_forecast()
     pass

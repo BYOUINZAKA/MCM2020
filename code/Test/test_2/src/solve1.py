@@ -62,15 +62,13 @@ def every(time_list: Iterable):
 
     yield value, current
 
-past = read_datas('past')
-curr = read_datas('current')
+df = read_datas('plan')
 
-df = concat([past, curr])
+invoke_print(df, "平均观察期", avgtime_observe)
+invoke_print(df, "平均住院天数", avgtime_live)
+invoke_print(df, "平均等待天数", avgtime_wait)
 
-invoke_print(past, "平均观察期", avgtime_observe)
-invoke_print(past, "平均住院天数", avgtime_live)
-invoke_print(past, "平均等待天数", avgtime_wait)
-
+print("平均病床")
 for group in df.groupby('Type'):
     time_list = get_time_list(group[1])
 
@@ -79,10 +77,11 @@ for group in df.groupby('Type'):
         sumval = sumval + hold
         count = count + 1
 
-    print(f"{trans_dict[group[0]]} :\t{sumval/count}天")
+    print(f"{trans_dict[group[0]]} :\t{sumval/count}")
 
 print()
 
+print("平均周转")
 for group in df.groupby('Type'):
     time_list = get_time_list(group[1])
 
@@ -91,4 +90,4 @@ for group in df.groupby('Type'):
         sumval = sumval + hold
         count = count + 1
 
-    print(f"{trans_dict[group[0]]} :\t{sumval/count}天")
+    print(f"{trans_dict[group[0]]} :\t{sumval/count}")
